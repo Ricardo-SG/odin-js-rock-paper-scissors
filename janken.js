@@ -1,4 +1,65 @@
-// Hello world
+// Global variables
+let playerWeapon    = '';
+let computerWeapon  = '';
+let playerWins      = 0;
+let computerWins    = 0;
+let ties            = 0;
+let extrangeValues  = 0;
+let roundResult     = 0;
+
+// variables DOM
+const rock = document.querySelector('.rock img');
+const paper = document.querySelector('.paper img');
+const scissors = document.querySelector('.scissors img');
+const finishHim = document.querySelector('.pushable');
+const roundText = document.querySelector('.round-text');
+const announcementText = document.querySelector('.announcement-text');
+const playerPunctuation = document.querySelector('.player-punctuation');
+const computerPunctuation = document.querySelector('.computer-punctuation');
+console.log(rock);
+console.log(paper);
+console.log(scissors);
+console.log(finishHim);
+console.log(roundText);
+console.log(announcementText);
+console.log(playerPunctuation);
+console.log(computerPunctuation);
+
+
+
+// Listeners
+rock.addEventListener('click', selectRock);
+paper.addEventListener('click', selectPaper);
+scissors.addEventListener('click', selectScissors);
+finishHim.addEventListener('click', janken);
+
+
+function selectRock() {
+    console.log('CLICKED ON ROCK');
+    paper.classList.remove('selected');
+    scissors.classList.remove('selected');
+    rock.classList.add('selected');
+    playerWeapon = 'rock';
+}
+
+function selectPaper() {
+    console.log('CLICKED ON PAPER');
+    paper.classList.add('selected');
+    scissors.classList.remove('selected');
+    rock.classList.remove('selected');
+    playerWeapon = 'paper';
+}
+
+function selectScissors() {
+    console.log('CLICKED ON SCISSORS');
+    paper.classList.remove('selected');
+    scissors.classList.add('selected');
+    rock.classList.remove('selected');
+    playerWeapon = 'scissors';
+}
+
+
+
 
 function getComputerChoice() {
 
@@ -82,88 +143,48 @@ function whoWillWin(playerSelection, computerSelection) {
 
 function game() {
 
-    /* We gonna ask the human to input what he's gonna play */
-    const playerSelection = prompt('Hey, puny human, what is gonna be, rock, paper, or scissors?');
-    const computerSelection = getComputerChoice();
-    console.log(playerSelection);
-    console.log(computerSelection);
-    const winnerWinnerChickenDinner = whoWillWin(playerSelection, computerSelection);
+    computerWeapon = getComputerChoice();
 
-    switch (winnerWinnerChickenDinner) {
-        case 'player':
-            console.log('Wow! You Win! '+ playerSelection +' won against '+ computerSelection);
-            break;
-        case 'computer':
-            console.log('Haha! You lose! '+playerSelection+' lost against '+ computerSelection);
-            break;
-        case 'tie':
-            console.log('It was a TIE! Someone bring the X-Wings! '+playerSelection+' tied against '+ computerSelection);
-            break;
-        default: 
-            console.log('wtf has just happened?'+playerSelection+' wtfucked '+ computerSelection); 
-            break;
-    }   
+    console.log(playerWeapon);
+    console.log(computerWeapon);
+    const winnerWinnerChickenDinner = whoWillWin(playerWeapon, computerWeapon);
+    console.log('victor: ' + winnerWinnerChickenDinner);
 
     return winnerWinnerChickenDinner;
-    
-
-
 }
 
 function janken() {
+    
 
-    let playerWins      = 0;
-    let computerWins    = 0;
-    let ties            = 0;
-    let extrangeValues  = 0;
-    let roundResult     = 0;
+    roundResult = game();
 
-    for (let i=0;i<5;i++) {
-        roundResult = game();
+    switch (roundResult) {
+        case 'player':
+            roundText.textContent = 'You blasted that fucking dog haterrr!';
+            announcementText.textContent = 'YOU WON THE BOUT';
+            playerWins++;              
+            playerPunctuation.textContent = playerWins;
 
-        switch (roundResult) {
-            case 'player':
-                playerWins++;              
-                break;
-            case 'computer':
-                computerWins++;
-                break;
-            case 'tie':
-                ties++;
-                break;
-            default: 
-                extrangeValues++;
-                break;
-        } 
-    }
-
-    console.log('FINAL RESULTS');
-    console.log('IN THE BLUE CORNER, THE HUMAN, WITH AN SCORE OF ' + playerWins);
-    console.log('IN THE RED CORNER, THE INCREDIBLE MACHINE, WITH AN OUSTANDING SCORE OF ' + computerWins);
-    console.log('IN THE BUG CORNER, INEXPLICABLY, WE HAVE A TOTAL AMOUNT OF ' + extrangeValues);
-    console.log('BOTH HUMAN AND MACHINE HAVE TIED  ' + ties +' TIMES');
-
-
-    if (playerWins > Math.max(computerWins, extrangeValues, ties) ) {
-        console.log('THE HUMAN, SOMEHOW, MANAGED TO WIN');
-    }
-    else if (computerWins > Math.max(playerWins, extrangeValues, ties) ) {
-        console.log('THE MACHINE OF COURSE WON THE GAME');
-    }
-    else if (ties > Math.max(playerWins, extrangeValues, computerWins) ) {
-        console.log('THE REFEREE HAS WON, NEITHER THE MACHINE NOR THE HUMAN DESERVE THE VICTORY');
-    }
-    else if (extrangeValues > Math.max(playerWins, ties, computerWins) ) {
-        console.log('THE BUGS HAVE WON, WHY, HOW, IT DOESN\'T MATTER, THE BUG IS ALLMIGHTY');
-    }
-    else if (playerWins == computerWins) {
-        console.log('THE REFEREE HAS WON, NEITHER THE MACHINE NOR THE HUMAN DESERVE THE VICTORY');
-    }
-    else {
-        console.log('I don\'t know how I reached here');
-    }
- 
+            break;
+        case 'computer':
+            roundText.textContent = 'He\'s STILL MOCKING YOUR DOG FUCKING DO SOMETHING ';
+            announcementText.textContent = 'THAT GUY OVER THERE WON THE BOUT';
+            computerWins++;
+            computerPunctuation.textContent = computerWins;
+            break;
+        case 'tie':
+            roundText.textContent = 'He seems distraught, but, still thinks your doggo is not a good boyo';
+            announcementText.textContent = 'IT\'S A TIE';
+            ties++;
+            break;
+        default: 
+            roundText.textContent = 'THE D-REAPER IS HERE, COLLECT YOUR DOG AND RUN';
+            extrangeValues++;
+            break;
+    } 
 }
+    
+
 
 
 
